@@ -1,1 +1,40 @@
 
+pipeline {
+  options {
+    timeout(time: 15, unit: 'HOURS') // some images (carlake_debian_qual_env) take a LONG time to build or test
+    timestamps()
+  }
+  agent { label 'autolm && ubuntu' }
+  stages {
+
+    stage('Prepare') {
+      steps {
+        sh 'echo helloworld'
+      }
+    }
+    
+     stage('Virus scan') {
+            environment {
+                VIRUS_SCAN_REPORT_OUTDIR = "${RELEASE_COLLATERALS}/virus_scan"
+                VIRUS_SCAN_REPORT = "${VIRUS_SCAN_REPORT_OUTDIR}/VirusScanReport.txt"
+                MCAFEE_DIR = "mcafee"
+            }
+            steps {
+                sh "mkdir -p ${VIRUS_SCAN_REPORT_OUTDIR}"
+                sh "echo helloworld"
+            }
+        }
+        stage('BDBA Scan') {
+            environment {
+                BDBA_SERVER="https://bdba001.icloud.intel.com" // BDBA Server URL
+                BDBA_GROUP="32"
+            }
+            steps {
+                sh 'echo helloworld'
+            }
+        }
+
+  } // end stages
+  
+  
+} //
