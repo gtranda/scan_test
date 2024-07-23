@@ -25,10 +25,6 @@ pipeline {
             }
         }
         stage('BDBA Scan') {
-            environment {
-                BDBA_SERVER="https://bdba001.icloud.intel.com" // BDBA Server URL
-                BDBA_GROUP="32"
-            }
             steps {
                 sh 'echo helloworld'
             }
